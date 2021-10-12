@@ -24,9 +24,8 @@ public class GameWindow {
 
         int guess = Integer.parseInt(entry);
 
-        String response = Guess.getInstance().check(guess);
+        Guess.getInstance().check(guess);
 
-        lblResponse.setText(response);
         txtEntry.requestFocus();
     }
 

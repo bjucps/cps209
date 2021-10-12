@@ -6,7 +6,7 @@ public class CalculatorTest {
     public void testAdd_PositiveNums_PositiveResult() {
         var calc = new Calculator();
         calc.add(5);
-        assertEquals(5, calc.getCurrent());
+        assertEquals(3, calc.getCurrent());
     }
 
     @Test

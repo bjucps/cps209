@@ -5,7 +5,7 @@ public class Guess {
     private int secret;
     private int maxSecret;
 
-    private HintEvent onHint;
+    private HintEventHandler onHint;
 
     private Guess() {
         
@@ -16,16 +16,16 @@ public class Guess {
     }
 
     public void check(int guess) {
-        String msg;
+        String hint;
         if (guess < secret) {
-            msg = "Too Low.";
+            hint = "Too Low.";
         } else if (guess > secret) {
-            msg = "Too High.";
+            hint = "Too High.";
         } else {
-            msg = "Correct!";
+            hint = "Correct!";
         }
 
-        onHint.handle(msg);
+        onHint.handleHint(hint);
     }
 
     public int getSecret() {
@@ -46,7 +46,7 @@ public class Guess {
         return maxSecret;
     }
 
-    public void setOnHint(HintEvent onHint) {
+    public void setOnHint(HintEventHandler onHint) {
         this.onHint = onHint;
     }
 
