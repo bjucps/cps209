@@ -99,7 +99,10 @@ public class MainWindow {
             node.setLayoutX(node.getLayoutX() + me.getX() - dragDelta.x);
             node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
         });
-        node.setOnMouseReleased(me -> node.getScene().setCursor(Cursor.HAND) );
+        node.setOnMouseReleased(me -> { 
+            node.getScene().setCursor(Cursor.HAND);
+            System.out.println(node.getLayoutX() + ", " + node.getLayoutY());
+         } );
 
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image

@@ -14,7 +14,7 @@
 
     <HBox>
         <Button onAction="#onBrokenStartClicked" text="Start (Broken)"  />
-        <Button onAction="#onStartClicked" text="Start"  />
+        <Button fx:id="btnStart" onAction="#onStartClicked" text="Start"  />
         <Button onAction="#onStopClicked" text="Stop"  />
     </HBox>
 

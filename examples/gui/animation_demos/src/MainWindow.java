@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -16,6 +17,8 @@ public class MainWindow {
     @FXML Label lblTime;
 
     Timeline timeline;
+
+    @FXML Button btnStart;
 
 
     @FXML
@@ -37,10 +40,19 @@ public class MainWindow {
         }
     }
 
+    int count = 0;
+
     @FXML
     void onStartClicked() {
-        timeline = new Timeline(new KeyFrame(Duration.millis(50), 
-        e -> imgView.setX(imgView.getX() + 4)));
+        btnStart.setDisable(true);
+        timeline = new Timeline(new KeyFrame(Duration.millis(500), 
+        e -> { 
+            imgView.setX(imgView.getX() + 4));
+            count++;
+            if (count == 50)
+                btnStart.setDisable(false);
+        }
+            );
         timeline.setCycleCount(50);
         timeline.play();
     }

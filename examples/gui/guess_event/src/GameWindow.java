@@ -31,9 +31,13 @@ public class GameWindow {
 
     public void initialize() {
         Guess.getInstance().pickSecretNumber();
-        Guess.getInstance().setOnHint( msg -> lblResponse.setText(msg) );
+        Guess.getInstance().setOnHint( this::handleHint );
 
         // Set text of label displaying guessing range
         lblInstr.setText("Guess a number from 1 to " + Guess.getInstance().getMaxSecret());
+    }
+
+    public void handleHint(String msg) {
+        lblResponse.setText(msg);
     }
 }
