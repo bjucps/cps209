@@ -23,12 +23,15 @@ public class MainWindow {
 
     @FXML
     void initialize() {
-        var keyFrame = new KeyFrame(Duration.millis(1000),
-            e -> lblTime.setText(new Date().toString()));
+        var keyFrame = new KeyFrame(Duration.millis(1000), this::updateClock);
         var clockTimeline = new Timeline(keyFrame);
             
         clockTimeline.setCycleCount(Timeline.INDEFINITE);
         clockTimeline.play();
+    }
+
+    void updateClock(ActionEvent e) {
+        lblTime.setText(new Date().toString());
     }
 
 
@@ -45,21 +48,22 @@ public class MainWindow {
     @FXML
     void onStartClicked() {
         btnStart.setDisable(true);
-        timeline = new Timeline(new KeyFrame(Duration.millis(500), 
-        e -> { 
-            imgView.setX(imgView.getX() + 4));
-            count++;
-            if (count == 50)
-                btnStart.setDisable(false);
-        }
-            );
+        timeline = new Timeline(new KeyFrame(Duration.millis(500), this::updateMan));
         timeline.setCycleCount(50);
         timeline.play();
+    }
+
+    void updateMan(ActionEvent e) { 
+        imgView.setX(imgView.getX() + 4);
+        count++;
+        if (count == 50)
+            btnStart.setDisable(false);
     }
 
     @FXML
     void onStopClicked() {
         timeline.stop();
+        btnStart.setDisable(false);
     }
 
 }
