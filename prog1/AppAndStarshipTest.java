@@ -158,19 +158,6 @@ public class AppAndStarshipTest {
     }
 
     /**
-     * Tests App.main with fake crew member. Uses TrackingStream in place of System.out.
-     */
-    @Test
-    public void test_80_App_main_error() {
-        TrackingStream out = new TrackingStream();
-        App.out = out;
-        String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,gothard,mccoy"};
-        App.main(args);
-        String expected = "Unrecognized crew member";
-        assertTrue("Was " + out.printed, out.printed.contains(expected));
-    }
-    
-    /**
      * Runs the program like the user would.
      */
     @Test
@@ -431,4 +418,17 @@ public class AppAndStarshipTest {
             assertEquals(sorted[i], starship.getCrew().get(i));
         }
     }
+    
+    /**
+    * Tests App.main with fake crew member. Uses TrackingStream in place of System.out.
+     */
+    @Test
+    public void test_a100_App_main_error() {
+        TrackingStream out = new TrackingStream();
+        App.out = out;
+        String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,gothard,mccoy"};
+        App.main(args);
+        String expected = "Unrecognized crew member";
+        assertTrue("Was " + out.printed, out.printed.contains(expected));
+    }   
 }
