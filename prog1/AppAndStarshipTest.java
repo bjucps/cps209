@@ -1,9 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Tests for Program 1. Please add tests for all methods created.
@@ -198,11 +196,72 @@ public class AppAndStarshipTest {
             assertEquals("* mccoy", line);
             line = br.readLine();
             assertEquals("* scotty", line);
+            br.close();
         } catch (Exception e) {
             fail("Exception: " + e);
         }
     }
 
+    /**
+     * Helper method for checking file length. A bit long.
+     * @param filename the file to check.
+     */
+    private void checkLength(File f) {
+        try (BufferedReader file = new BufferedReader(new FileReader(f))) {
+            int level = 0, numLines = 0, lineNumber = 1;
+
+            String line = file.readLine();
+
+            while (line != null) {
+                int countOpen = line.length() - line.replace("{", "").length();
+                int countClose = line.length() - line.replace("}", "").length();
+                level += countOpen - countClose;
+                if (level > 1) {
+                    ++numLines;
+                } else if (countClose > 0 && level == 1) {
+                    if (numLines > 30) {
+                        fail("Method ending at " + lineNumber + " in " +  
+                                f.getName() + " is longer than 30 lines.");
+                    }
+                    numLines = 0;
+                } else if (countOpen > 0 && level == 2) {
+                    numLines = 0;
+                }
+                line = file.readLine();
+                ++lineNumber;
+            }
+        } catch (Exception e) {
+            fail(e.toString());
+        }
+    }
+
+    /**
+     * Recursively checks the length of methods in all java files.
+     * @param files list of files to check
+     */
+    private void checkFiles(File [] files) {
+        for (File file : files) {
+            if (file.isDirectory()) {
+                checkFiles(file.listFiles());
+            } else if (file.getName().endsWith(".java")) {
+                checkLength(file);
+            }
+        }
+    }
+
+    /**
+     * Check method lengths for all files in the src folder. 
+     */
+    @Test
+    public void test_80_method_too_long() {
+
+        // Gets all the files in the src folder
+        File f = new File("src");
+
+        // recursively checks all the java files
+        checkFiles(f.listFiles());
+
+    }
 
     /**
      * Included to get full coverage from jacoco. App has an implicit default constructor.
