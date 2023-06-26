@@ -1,6 +1,10 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 /**
  * Tests for Program 1. Please add tests for all methods created.
  * @author Sarah Gothard and ________________________
@@ -168,6 +172,37 @@ public class AppAndStarshipTest {
         assertTrue("Was " + out.printed, out.printed.contains(expected));
     }
     
+    /**
+     * Runs the program like the user would.
+     */
+    @Test
+    public void test_80_run_process()    {
+        try {
+            Process process = new ProcessBuilder("java", 
+                  "-jar", "build/libs/app.jar", "--cloak", "--warp", "3.14", 
+                  "--shields", "1", "--crew", "kirk,mccoy,scotty").start();
+            InputStream is = process.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line = br.readLine();
+            assertEquals("Shields:\t[X--------]", line);
+            line = br.readLine();
+            assertEquals("Warp:\t[3.14]", line);
+            line = br.readLine();
+            assertEquals("Cloak:\t[Engaged]", line);
+            line = br.readLine();
+            assertEquals("Bridge Crew:", line);
+            line = br.readLine();
+            assertEquals("* kirk", line);
+            line = br.readLine();
+            assertEquals("* mccoy", line);
+            line = br.readLine();
+            assertEquals("* scotty", line);
+        } catch (Exception e) {
+            fail("Exception: " + e);
+        }
+    }
+
 
     /**
      * Included to get full coverage from jacoco. App has an implicit default constructor.
