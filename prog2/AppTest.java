@@ -20,6 +20,8 @@ public class AppTest {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line = br.readLine();
+            assertEquals("Metadata in src/ice.png:", line);
+            line = br.readLine();
             assertTrue("Was " + line, line.startsWith("Software: "));
             line = br.readLine();
             assertEquals("Signature: 3248a69c033c15e46356a9ecb996c652", line);
@@ -43,6 +45,8 @@ public class AppTest {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line = br.readLine();
+            assertEquals("Metadata in src/sample.png:", line);
+            line = br.readLine();
             assertTrue("Was " + line, line.startsWith("Software: "));
             br.close();
                         
@@ -63,14 +67,17 @@ public class AppTest {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line = br.readLine();
-            assertNull(line);
+            assertTrue(line==null || line.equals("Usage: Java App [filename] or arun [filename]"));
             br.close();
-            is = process.getErrorStream();
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            line = br.readLine();
-            assertEquals("Usage: Java App [filename] or arun [filename]", line);
-            br.close();
+
+            if (line == null) {
+                is = process.getErrorStream();
+                isr = new InputStreamReader(is);
+                br = new BufferedReader(isr);
+                line = br.readLine();
+                assertEquals("Usage: Java App [filename] or arun [filename]", line);
+                br.close();
+            }
                         
         } catch (Exception e) {
             fail("Exception: " + e);
@@ -151,8 +158,40 @@ public class AppTest {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line = br.readLine();
+            assertEquals("Metadata in src/sample.png:", line);
+            line = br.readLine();
             assertEquals("Software: BJU-CpS-209", line);
             br.close();
+                        
+        } catch (Exception e) {
+            fail("Exception: " + e);
+        }
+    }
+
+    /**
+     * Check method lengths for all files in the src folder. 
+     */
+    @Test
+    public void test_a105_modify_metadata_fail() {
+
+        try {
+            Process process = new ProcessBuilder("java", 
+                  "-jar", "build/libs/app.jar", "src/sample.png", "Denomination", "Presbyterian").start();
+            InputStream is = process.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line = br.readLine();
+            assertTrue(line==null || line.equals("No Denomination found"));
+            br.close();
+
+            if (line == null) {
+                is = process.getErrorStream();
+                isr = new InputStreamReader(is);
+                br = new BufferedReader(isr);
+                line = br.readLine();
+                assertEquals("No Denomination found", line);
+                br.close();
+            }
                         
         } catch (Exception e) {
             fail("Exception: " + e);
