@@ -27,9 +27,6 @@ public class AppAndStarshipTest {
         }
     }
 
-    /**
-     * Test Starship setters and getters.
-     */
     @Test
     public void test_80_Starship_setters() {
         Starship ship = new Starship();
@@ -44,9 +41,6 @@ public class AppAndStarshipTest {
         assertEquals("uhura", ship.getCrew().get(1));
     }
 
-    /**
-     * tests Starship fromArgs with example input
-     */
     @Test
     public void test_80_Starship_factory_valid_input() {
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,uhura,mccoy"};
@@ -59,9 +53,6 @@ public class AppAndStarshipTest {
         assertEquals(7, ship.getShields());
     }
 
-    /**
-     * Tests Starship fromArgs with example input in reverse order.
-     */
     @Test
     public void test_80_Starship_factory_valid_input_reversed() {
         String []args = {"--crew", "kirk,uhura,mccoy", "--shields", "7", "--cloak", "--warp", "5.2"};
@@ -74,9 +65,6 @@ public class AppAndStarshipTest {
         assertEquals(7, ship.getShields());
     }
 
-    /**
-     * Tests Starship fromArgs with no arguments
-     */
     @Test
     public void test_80_Starship_factory_no_input() {
         String []args = {};
@@ -123,9 +111,6 @@ public class AppAndStarshipTest {
         assertEquals(expected, out.printed);
     }
 
-    /**
-     * Tests App.main with full shields. Uses TrackingStream in place of System.out.
-     */
     @Test
     public void test_80_App_main_fullshields() {
         TrackingStream out = new TrackingStream();
@@ -141,9 +126,6 @@ public class AppAndStarshipTest {
         assertEquals(expected, out.printed);
     }
 
-    /**
-     * Tests App.main with no shields. Uses TrackingStream in place of System.out.
-     */
     @Test
     public void test_80_App_main_noshields() {
         TrackingStream out = new TrackingStream();
@@ -236,16 +218,11 @@ public class AppAndStarshipTest {
         }
     }
 
-    /**
-     * Check method lengths for all files in the src folder. 
-     */
     @Test
     public void test_80_method_too_long() {
 
-        // Gets all the files in the src folder
         File f = new File("src");
 
-        // recursively checks all the java files
         checkFiles(f.listFiles());
 
     }
