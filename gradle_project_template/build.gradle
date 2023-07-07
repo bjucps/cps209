@@ -11,12 +11,16 @@ repositories {
 sourceSets {
     main.java.srcDirs = ['src']
     main.resources.srcDirs = ['src']
-    test.java.srcDirs = ['src']
-    test.resources.srcDirs = ['src']
+    test.java.srcDirs = ['tests']
+    test.resources.srcDirs = ['tests']
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
-    implementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
 }
 
 application.mainClass = 'App'
