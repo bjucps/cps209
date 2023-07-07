@@ -12,12 +12,12 @@ gradle install
 
 To run this project, execute:
 ```
-arun
+./arun
 ```
 
 To clean this project, execute:
 ```
-aclean
+./aclean
 ```
 
 
