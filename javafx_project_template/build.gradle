@@ -2,27 +2,32 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
-    id 'jacoco'    
+    id 'jacoco'
 }
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 sourceSets {
     main.java.srcDirs = ['src']
     main.resources.srcDirs = ['src']
-    test.java.srcDirs = ['src']
-    test.resources.srcDirs = ['src']
+    test.java.srcDirs = ['tests']
+    test.resources.srcDirs = ['tests']
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
 }
 
 javafx {
     version = "16"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media' ]
-}
-
-dependencies {
-    implementation 'junit:junit:4.12'
 }
 
 application.mainClass = 'App'
