@@ -1,11 +1,8 @@
-import static org.junit.Assert.*;
 import java.io.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests App.java. There can be separate test prgorams for each Java file.
- * @author Sarah Gothard, 2023
- */
+
 public class AppTest {
 
     /**
@@ -22,7 +19,7 @@ public class AppTest {
             String line = br.readLine();
             assertEquals("Metadata in src/ice.png:", line);
             line = br.readLine();
-            assertTrue("Was " + line, line.startsWith("Software: "));
+            assertTrue(line.startsWith("Software: "));
             line = br.readLine();
             assertEquals("Signature: 3248a69c033c15e46356a9ecb996c652", line);
             line = br.readLine();
@@ -33,9 +30,6 @@ public class AppTest {
         }
     }
 
-    /**
-     * Runs the program like the user would.
-     */
     @Test
     public void test_80_main_sample_png()    {
         try {
@@ -47,7 +41,7 @@ public class AppTest {
             String line = br.readLine();
             assertEquals("Metadata in src/sample.png:", line);
             line = br.readLine();
-            assertTrue("Was " + line, line.startsWith("Software: "));
+            assertTrue(line.startsWith("Software: "));
             br.close();
                         
         } catch (Exception e) {
@@ -55,9 +49,6 @@ public class AppTest {
         }
     }
 
-    /**
-     * Runs the program like the user would.
-     */
     @Test
     public void test_80_main_no_args()    {
         try {
@@ -84,70 +75,15 @@ public class AppTest {
         }
     }
 
-    /**
-     * Helper method for checking file length. A bit long.
-     * @param filename the file to check.
-     */
-    private void checkLength(File f) {
-        try (BufferedReader file = new BufferedReader(new FileReader(f))) {
-            int level = 0, numLines = 0, lineNumber = 1;
-
-            String line = file.readLine();
-
-            while (line != null) {
-                int countOpen = line.length() - line.replace("{", "").length();
-                int countClose = line.length() - line.replace("}", "").length();
-                level += countOpen - countClose;
-                if (level > 1) {
-                    ++numLines;
-                } else if (countClose > 0 && level == 1) {
-                    if (numLines > 30) {
-                        fail("Method ending at " + lineNumber + " in " +  
-                                f.getName() + " is longer than 30 lines.");
-                    }
-                    numLines = 0;
-                } else if (countOpen > 0 && level == 2) {
-                    numLines = 0;
-                }
-                line = file.readLine();
-                ++lineNumber;
-            }
-        } catch (Exception e) {
-            fail(e.toString());
-        }
-    }
-
-    /**
-     * Recursively checks the length of methods in all java files.
-     * @param files list of files to check
-     */
-    private void checkFiles(File [] files) {
-        for (File file : files) {
-            if (file.isDirectory()) {
-                checkFiles(file.listFiles());
-            } else if (file.getName().endsWith(".java")) {
-                checkLength(file);
-            }
-        }
-    }
-
-    /**
-     * Check method lengths for all files in the src folder. 
-     */
     @Test
     public void test_80_method_too_long() {
-
-        // Gets all the files in the src folder
-        File f = new File("src");
-
-        // recursively checks all the java files
-        checkFiles(f.listFiles());
-
+        String []folders = {"src", "tests"};
+        for (String folder: folders) {
+            File f = new File(folder);
+            LongMethodChecker.checkFiles(f.listFiles());
+        }
     }
 
-    /**
-     * Check method lengths for all files in the src folder. 
-     */
     @Test
     public void test_a105_modify_metadata() {
 
@@ -168,9 +104,6 @@ public class AppTest {
         }
     }
 
-    /**
-     * Check method lengths for all files in the src folder. 
-     */
     @Test
     public void test_a105_modify_metadata_fail() {
 
