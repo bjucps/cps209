@@ -1,5 +1,5 @@
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CalculatorTest {
     @Test
@@ -12,13 +12,9 @@ public class CalculatorTest {
     @Test
     public void testAdd_HugeNum_ThrowsException() {
         var calc = new Calculator(2000000000);
-        try {
-            calc.add(2000000000);
-            fail("Expected IllegalArgumentException not thrown");
-        } catch (IllegalArgumentException e) {
-            assertEquals("Argument too large", e.getMessage());
-        }
-
-    }
-
+        Exception e;
+        e = assertThrows (IllegalArgumentException.class,
+                        () -> calc.add(2000000000));
+        assertTrue(e.getMessage().contains("Argument too large"));
+    }  
 }

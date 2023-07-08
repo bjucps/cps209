@@ -54,17 +54,16 @@ public class AppTest {
         try {
             Process process = new ProcessBuilder("java", 
                   "-jar", "build/libs/app.jar").start();
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = br.readLine();
-            assertTrue(line==null || line.equals("Usage: Java App [filename] or arun [filename]"));
+            // Check standard out
+            assertTrue(line==null || 
+                       line.equals("Usage: Java App [filename] or arun [filename]"));
             br.close();
 
+            // Check standard error if standard out was null
             if (line == null) {
-                is = process.getErrorStream();
-                isr = new InputStreamReader(is);
-                br = new BufferedReader(isr);
+                br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                 line = br.readLine();
                 assertEquals("Usage: Java App [filename] or arun [filename]", line);
                 br.close();
@@ -75,6 +74,9 @@ public class AppTest {
         }
     }
 
+    /**
+     * LongMethodChecker is available in the prog1 folder.
+     */
     @Test
     public void test_80_method_too_long() {
         String []folders = {"src", "tests"};
@@ -90,9 +92,8 @@ public class AppTest {
         try {
             Process process = new ProcessBuilder("java", 
                   "-jar", "build/libs/app.jar", "src/sample.png", "Software", "BJU-CpS-209").start();
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = br.readLine();
             assertEquals("Metadata in src/sample.png:", line);
             line = br.readLine();
@@ -110,13 +111,12 @@ public class AppTest {
         try {
             Process process = new ProcessBuilder("java", 
                   "-jar", "build/libs/app.jar", "src/sample.png", "Denomination", "Presbyterian").start();
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = br.readLine();
             assertTrue(line==null || line.equals("No Denomination found"));
             br.close();
 
+            // Check standard error if standard out was null
             if (line == null) {
                 is = process.getErrorStream();
                 isr = new InputStreamReader(is);

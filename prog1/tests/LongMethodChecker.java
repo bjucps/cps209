@@ -12,6 +12,21 @@ public class LongMethodChecker {
     private int openedBraces, linesInMethod, lineNumber;
     private int maxLines = 30;
 
+    /**
+     * Recursively checks the length of methods in all java files.
+     * @param files list of files to check
+     */
+    public static void checkFiles(File [] files) {
+        for (File file : files) {
+            if (file.isDirectory()) {
+                checkFiles(file.listFiles());
+            } else if (file.getName().endsWith(".java")) {
+                new LongMethodChecker(file);
+            }
+        }
+    }
+    
+
     public LongMethodChecker (File f, int maxLines) {
         this.maxLines = maxLines;
         checkMethodLength(f);
@@ -21,10 +36,6 @@ public class LongMethodChecker {
         checkMethodLength(f);
     }
 
-    /**
-     * Helper method for checking file length. A bit long.
-     * @param filename the file to check.
-     */
     public void checkMethodLength(File f) {
         openedBraces = 0;
         linesInMethod = 0;
@@ -71,19 +82,4 @@ public class LongMethodChecker {
         int countOpen = line.length() - line.replace(itemToFind, "").length();
         return countOpen;
     }
-
-    /**
-     * Recursively checks the length of methods in all java files.
-     * @param files list of files to check
-     */
-    public static void checkFiles(File [] files) {
-        for (File file : files) {
-            if (file.isDirectory()) {
-                checkFiles(file.listFiles());
-            } else if (file.getName().endsWith(".java")) {
-                new LongMethodChecker(file);
-            }
-        }
-    }
-    
 }
