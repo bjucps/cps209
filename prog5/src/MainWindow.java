@@ -1,16 +1,29 @@
-import javafx.event.ActionEvent;
+import java.util.Optional;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import model.Critter;
 
 public class MainWindow {
 
     @FXML
-    void onGreetClicked(ActionEvent event) {
-        var alert = new Alert(AlertType.INFORMATION, "Hello, world!");
-        alert.setHeaderText(null);
-        alert.show();
+    private Pane pane;
 
+    @FXML
+    public void initialize() {
+    }
+
+
+    /**
+     * Gets the ImageView for a specified Critter object
+     * @param critter
+     * @return ImageView representing the Critter
+     */
+    private ImageView getCritterImageView(Critter critter) {
+         Optional<Node> optional = pane.getChildren().stream()
+                .filter(c -> c.getUserData() == critter).findFirst();
+        if (optional.isPresent()) return (ImageView) optional.get();
+        else                      return null;
     }
 }
