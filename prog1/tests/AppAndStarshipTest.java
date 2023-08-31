@@ -92,7 +92,7 @@ public class AppAndStarshipTest {
     public void test_80_App_main() {
         TrackingStream out = new TrackingStream();
         App.out = out;
-        
+
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,uhura,mccoy"};
         App.main(args);
         String expected = "Shields:\t[XXXXXXX--]" + System.lineSeparator() +
@@ -103,10 +103,11 @@ public class AppAndStarshipTest {
                 System.lineSeparator();
         assertEquals(expected, out.printed);
     }
-    
+
     @Test
     public void test_80_App_main_fullshields() {
-        App.out = new TrackingStream();
+        TrackingStream out = new TrackingStream();
+        App.out = out;
         String []args = {"--warp", "0", "--shields", "9", "--crew", "chekov,scotty,spock"};
         App.main(args);
         String expected = "Shields:\t[XXXXXXXXX]" + System.lineSeparator() +
@@ -120,7 +121,8 @@ public class AppAndStarshipTest {
 
     @Test
     public void test_80_App_main_noshields() {
-        App.out = new TrackingStream();
+        TrackingStream out = new TrackingStream();
+        App.out = out;
         String []args = {"--warp", "15", "--crew", "spock"};
         App.main(args);
         String expected = "Shields:\t[---------]" + System.lineSeparator() +
@@ -257,7 +259,8 @@ public class AppAndStarshipTest {
      */
     @Test
     public void test_a100_App_main_error() {
-        App.out = new TrackingStream();
+        TrackingStream out = new TrackingStream();
+        App.out = out;
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,gothard,mccoy"};
         App.main(args);
         String expected = "Unrecognized crew member";
