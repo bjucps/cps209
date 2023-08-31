@@ -90,7 +90,8 @@ public class AppAndStarshipTest {
      */
     @Test
     public void test_80_App_main() {
-        App.out = new TrackingStream();
+        TrackingStream out = new TrackingStream();
+        App.out = out;
 
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,uhura,mccoy"};
         App.main(args);
@@ -102,7 +103,7 @@ public class AppAndStarshipTest {
                 System.lineSeparator();
         assertEquals(expected, out.printed);
     }
-
+    
     @Test
     public void test_80_App_main_fullshields() {
         App.out = new TrackingStream();
