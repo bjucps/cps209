@@ -92,7 +92,7 @@ public class AppAndStarshipTest {
     public void test_80_App_main() {
         TrackingStream out = new TrackingStream();
         App.out = out;
-
+        
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,uhura,mccoy"};
         App.main(args);
         String expected = "Shields:\t[XXXXXXX--]" + System.lineSeparator() +
