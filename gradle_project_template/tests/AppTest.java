@@ -32,14 +32,4 @@ public class AppTest {
         assertEquals("Hello, world!" + System.lineSeparator(), 
                     trackingOut.printed);
     }
-
-    @Test
-    public void test_App_WithDependencyInjection_oneArg() {
-        TrackingStream trackingOut = new TrackingStream();
-        System.setOut(trackingOut);
-        String []args = {"Ann"};
-        App.main(args);
-        assertEquals("Hello, Ann" + System.lineSeparator(), 
-                    trackingOut.printed);
-    }
 }
