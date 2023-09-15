@@ -1,10 +1,8 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.*;
 
 public class AppTest {
-
     /**
      * Example test of Hello World. Delete as needd.
      */
@@ -22,5 +20,26 @@ public class AppTest {
         } catch (Exception e) {
             fail("Exception: " + e);
         }
+    }
+
+    @Test
+    public void test_App_WithDependencyInjection_noArgs() {
+        TrackingStream trackingOut = new TrackingStream();
+        System.setOut(trackingOut);
+
+        String []args = {};
+        App.main(args);
+        assertEquals("Hello, world!" + System.lineSeparator(), 
+                    trackingOut.printed);
+    }
+
+    @Test
+    public void test_App_WithDependencyInjection_oneArg() {
+        TrackingStream trackingOut = new TrackingStream();
+        System.setOut(trackingOut);
+        String []args = {"Ann"};
+        App.main(args);
+        assertEquals("Hello, Ann" + System.lineSeparator(), 
+                    trackingOut.printed);
     }
 }
