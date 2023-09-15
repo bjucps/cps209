@@ -91,7 +91,7 @@ public class AppAndStarshipTest {
     @Test
     public void test_80_App_main() {
         TrackingStream out = new TrackingStream();
-        App.out = out;
+        System.setOut(out);
 
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,uhura,mccoy"};
         App.main(args);
@@ -107,7 +107,7 @@ public class AppAndStarshipTest {
     @Test
     public void test_80_App_main_fullshields() {
         TrackingStream out = new TrackingStream();
-        App.out = out;
+        System.setOut(out);
         String []args = {"--warp", "0", "--shields", "9", "--crew", "chekov,scotty,spock"};
         App.main(args);
         String expected = "Shields:\t[XXXXXXXXX]" + System.lineSeparator() +
@@ -122,7 +122,7 @@ public class AppAndStarshipTest {
     @Test
     public void test_80_App_main_noshields() {
         TrackingStream out = new TrackingStream();
-        App.out = out;
+        System.setOut(out);
         String []args = {"--warp", "15", "--crew", "spock"};
         App.main(args);
         String expected = "Shields:\t[---------]" + System.lineSeparator() +
@@ -260,10 +260,61 @@ public class AppAndStarshipTest {
     @Test
     public void test_a100_App_main_error() {
         TrackingStream out = new TrackingStream();
-        App.out = out;
+        System.setErr(out);
         String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,gothard,mccoy"};
         App.main(args);
         String expected = "Unrecognized crew member";
         assertTrue(out.printed.contains(expected), "Was " + out.printed);
     }   
+
+    
+    @Test
+    public void test_trackingStream_convert_backslash_n () {
+        TrackingStream out = new TrackingStream();
+        out.print("Hello\nWorld");
+        String expected = "Hello" + System.lineSeparator() + "World";
+        assertEquals(expected, out.printed);
+        out.close();
+    }
+    @Test
+    public void test_trackingStream_convert_backslash_r () {
+        TrackingStream out = new TrackingStream();
+        out.print("Hello\rWorld");
+        String expected = "Hello" + System.lineSeparator() + "World";
+        assertEquals(expected, out.printed);
+        out.close();
+    }
+    @Test
+    public void test_trackingStream_convert_backslash_rn () {
+        TrackingStream out = new TrackingStream();
+        out.print("Hello\r\nWorld");
+        String expected = "Hello" + System.lineSeparator() + "World";
+        assertEquals(expected, out.printed);
+        out.close();
+    }
+
+    @Test
+    public void test_trackingStream_convert_backslash_ns () {
+        TrackingStream out = new TrackingStream();
+        out.print("\nHello\nWorld\n\n\n");
+        String expected = System.lineSeparator() + "Hello" + System.lineSeparator() + "World"+ System.lineSeparator()+ System.lineSeparator()+ System.lineSeparator();
+        assertEquals(expected, out.printed);
+        out.close();
+    }
+    @Test
+    public void test_trackingStream_convert_backslash_rs () {
+        TrackingStream out = new TrackingStream();
+        out.print("\r\rHello\rWorld\r\r");
+        String expected = System.lineSeparator() + System.lineSeparator() + "Hello" + System.lineSeparator() + "World"+ System.lineSeparator()+ System.lineSeparator();
+        assertEquals(expected, out.printed);
+        out.close();
+    }
+    @Test
+    public void test_trackingStream_convert_backslash_rns () {
+        TrackingStream out = new TrackingStream();
+        out.print("\r\n\r\nHello\r\nWorld\r\n\r\n");
+        String expected = System.lineSeparator()+ System.lineSeparator() + "Hello" + System.lineSeparator() + "World"+ System.lineSeparator()+ System.lineSeparator();
+        assertEquals(expected, out.printed);
+        out.close();
+    }
 }
