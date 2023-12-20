@@ -4,7 +4,7 @@ import java.io.*;
 
 public class AppTest {
     /**
-     * Example test of Hello World. Delete as needd.
+     * Example test of Hello World. Delete as needed.
      */
     @Test
     public void test_App_HelloWorld(){
