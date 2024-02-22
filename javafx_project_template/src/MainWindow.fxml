@@ -8,4 +8,12 @@
 
     <Button onAction="#onGreetClicked" text="Greet"  />
 
+    <fx:define>
+        <ToggleGroup fx:id="group" />
+    </fx:define>
+    
+    <ToggleButton text="Minor" selected="true" ToggleGroup="$group" />
+    <ToggleButton text="Major" ToggleGroup="$group"/>
+    <ToggleButton text="Critical" ToggleGroup="$group" />
+
 </VBox>
