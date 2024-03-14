@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 
 // Example comment.
+// way better comment.
 public class GUIApplication extends Application{
 
     @Override
