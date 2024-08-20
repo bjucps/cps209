@@ -6,6 +6,18 @@
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Hello, world!");
+        System.out.println(addArgs(args));
+    }
+
+    public static int addArgs(String []args) {
+        int sum = 0;
+        
+        if (args.length > 0) {
+            for (var item : args) {
+                sum += Integer.parseInt(item);
+            }
+        }
+        return sum;
+        
     }
 }

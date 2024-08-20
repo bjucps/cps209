@@ -3,17 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml"  stylesheets="@MainWindow.css"
-    spacing="10" prefHeight="400" prefWidth="250">
+<VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css"
+    spacing="10" prefHeight="200" prefWidth="300">
 
-    <Button onAction="#onGreetClicked" text="Greet"  />
+
+    <Button onAction="#onGreetClicked" text="Greet the World"  />
 
     <fx:define>
         <ToggleGroup fx:id="group" />
     </fx:define>
-    
-    <ToggleButton text="Minor" selected="true" ToggleGroup="$group" />
-    <ToggleButton text="Major" ToggleGroup="$group"/>
-    <ToggleButton text="Critical" ToggleGroup="$group" />
+
+    <ToggleButton text="Hello" selected="true" ToggleGroup="$group" />
+    <ToggleButton text="Howdy" ToggleGroup="$group"  />
+    <ToggleButton text="Greetings" ToggleGroup="$group"  />
+
 
 </VBox>

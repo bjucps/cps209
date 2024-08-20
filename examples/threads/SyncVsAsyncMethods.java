@@ -14,7 +14,7 @@ public class SyncVsAsyncMethods {
         sum1 = t1.get(); // waits for t1 to complete
         sum2 = t2.get(); // waits for t2 to complete
 
-        System.out.println("Sum of 1 to 20 = " + (sum1 + sum2));
+        System.out.println("Async Sum of 1 to 20 = " + (sum1 + sum2));
     }
 
     static int sum(int start, int end) {

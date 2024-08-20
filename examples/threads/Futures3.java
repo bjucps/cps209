@@ -25,7 +25,7 @@ public class Futures3 {
             try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
                 while (rd.readLine() != null) {
                     ++lines;
-                    if (lines % 10 == 0)
+                    if (lines % 5 == 0)
                         onProgress.accept(lines);
                 }
                     

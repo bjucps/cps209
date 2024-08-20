@@ -5,3 +5,4 @@ public class App {
         Application.launch(GUIApplication.class, args);
     }
 }
+

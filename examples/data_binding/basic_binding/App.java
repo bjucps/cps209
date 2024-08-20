@@ -1,4 +1,4 @@
-import javafx.beans.property.*;
+import javafx.IntegerProperty;
 
 public class App {
     public static void main(String[] args) {

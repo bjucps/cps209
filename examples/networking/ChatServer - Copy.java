@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -42,7 +43,7 @@ public class ChatServer {
             }
 
             String line = "";
-            while (!line.equals("quit") && reader.hasNextLine()) {
+            while (!line.equals("quit") && reader.hasNext()) {
                 line = reader.nextLine();
                 System.out.println("Received from " + handle + ": " + line);
                 Thread.sleep(1000); // simulate delay

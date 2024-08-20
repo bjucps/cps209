@@ -11,12 +11,11 @@ public class EchoServerThreaded {
     public static void main(String[] args) throws IOException {
         var serverSocket = new ServerSocket(PORT);
         System.out.println("EchoServer listening on port " + PORT + "...");
-        while (true) {
+        for (;;) {
             System.out.println("Waiting for client to connect...");
             final Socket client = serverSocket.accept();
             System.out.println("Received incoming connection from client: " + client.getInetAddress());
-            var thread = new Thread(() -> handleClient(client));
-            thread.start();
+            new Thread(() -> handleClient(client)).start();
         }
     }
 
@@ -27,7 +26,7 @@ public class EchoServerThreaded {
 
             // Now, communicate with client
             writer.println("Welcome to the Echo Server.");
-            while (reader.hasNext()) {
+        while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 System.out.println("Received: " + line);
                 writer.println(line);

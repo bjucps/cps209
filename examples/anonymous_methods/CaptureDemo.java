@@ -10,6 +10,8 @@ public class CaptureDemo {
         names.add("Frank");
         names.add("Joe");
         names.add("");
+        names.add("Ann");
+        names.add("Dan");
         names.add("Reshi");
 
         String name = "";

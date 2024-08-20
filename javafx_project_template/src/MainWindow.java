@@ -6,11 +6,18 @@ import javafx.scene.control.Alert.AlertType;
 
 public class MainWindow {
 
+    @FXML ToggleGroup group;
+
     @FXML
     void onGreetClicked(ActionEvent event) {
-        var alert = new Alert(AlertType.INFORMATION, "Hello, world!");
+        String selected = ((ToggleButton)group.getSelectedToggle()).getText();
+        
+        displayAlert(selected + ", World!");
+    }
+
+    private void displayAlert(String text) {
+        var alert = new Alert(AlertType.INFORMATION, text);
         alert.setHeaderText(null);
         alert.show();
-
     }
 }
