@@ -1,4 +1,7 @@
-import java.util.*;
+package lab02;
+
+import java.util.Random;
+
 
 public class Guess {
     private int secret;

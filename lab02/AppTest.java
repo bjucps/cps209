@@ -1,15 +1,19 @@
+package app;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 
-public class Tests {
+public class AppTest {
     /**
      * Addition test
      */
     @Test
-    public void test_add(){
+    public void test_getSum(){
         String []args = {"3", "4", "13"};
-        assertEquals(App.addArgs(args), 20);
+        
+        assertEquals(App.getSum(args), 20);
     }
 
     /**
@@ -18,16 +22,16 @@ public class Tests {
     @Test
     public void test_add_empty(){
         String []args = {};
-        assertEquals(App.addArgs(args), 0);
+        assertEquals(App.getSum(args), 0);
     }
 
-        /**
+    /**
      * Addition test: nonnumeric
      */
     @Test
     public void test_add_nonNumberic(){
         String []args = {"hello", "world"};
-        assertThrows(NumberFormatException.class, () ->App.addArgs(args));
+        assertThrows(NumberFormatException.class, () ->App.getSum(args));
     }
 
 }
