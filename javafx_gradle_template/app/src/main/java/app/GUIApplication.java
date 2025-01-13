@@ -1,4 +1,4 @@
-
+package app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +10,8 @@ public class GUIApplication extends Application{
     @Override
     public void start(Stage stage) throws Exception {
       
-        var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        var resource = getClass().getResource("/MainWindow.fxml");
+        var loader = new FXMLLoader(resource);
         var scene = new Scene(loader.load());
 
         stage.setScene(scene);

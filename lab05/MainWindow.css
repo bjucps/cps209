@@ -1,13 +1,17 @@
 .root {
     -fx-padding: 30; /* Add a small padding around the window */
+    padding: 30; /* duplicated for compatibility */
     -fx-spacing: 10;
     -fx-alignment: center;
     -fx-font-size: 20;
+    font-size: 20;
 }
 
 Button {
     -fx-padding: 20;
+    padding: 20;
     -fx-min-width: 60; 
+    min-width: 60;
 }
 
 HBox {
