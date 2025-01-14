@@ -1,3 +1,5 @@
+package app;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -6,9 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.Coordinate;
-import model.Player;
-import model.TicTacToe;
+import app.model.Coordinate;
+import app.model.Player;
+import app.model.TicTacToe;
 
 
 public class MainWindow {
