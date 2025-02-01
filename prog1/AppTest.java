@@ -1,8 +1,13 @@
 package app;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.File;
 
-import java.io.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Program 1. Uncomment one at a time. Add tests for 100% code coverage.
@@ -138,31 +143,19 @@ public class AppTest {
     //  */
     // @Test
     // public void test_80_run_process()    {
-    //     try {
-    //         Process process = new ProcessBuilder("java", 
-    //               "-jar", "build/libs/app.jar", "--cloak", "--warp", "3.14", 
-    //               "--shields", "1", "--crew", "kirk,mccoy,scotty").start();
-    //         InputStream is = process.getInputStream();
-    //         InputStreamReader isr = new InputStreamReader(is);
-    //         BufferedReader br = new BufferedReader(isr);
-    //         String line = br.readLine();
-    //         assertEquals("Shields:\t[X--------]", line);
-    //         line = br.readLine();
-    //         assertEquals("Warp:\t[3.14]", line);
-    //         line = br.readLine();
-    //         assertEquals("Cloak:\t[Engaged]", line);
-    //         line = br.readLine();
-    //         assertEquals("Bridge Crew:", line);
-    //         line = br.readLine();
-    //         assertEquals("* kirk", line);
-    //         line = br.readLine();
-    //         assertEquals("* mccoy", line);
-    //         line = br.readLine();
-    //         assertEquals("* scotty", line);
-    //         br.close();
-    //     } catch (Exception e) {
-    //         fail("Exception: " + e);
-    //     }
+    //     String []args = {"--cloak", "--warp", "3.14", 
+    //               "--shields", "1", "--crew", "kirk,mccoy,scotty"};
+    //         TrackingStream out = new TrackingStream();
+    //         System.setOut(out);
+    //         App.main(args);
+    //         assertTrue(out.printed.contains("Shields:\t[X--------]"));
+    //         assertTrue(out.printed.contains("Warp:\t[3.14]"));
+    //         assertTrue(out.printed.contains("Cloak:\t[Engaged]"));
+    //         assertTrue(out.printed.contains("Bridge Crew:"));
+    //         assertTrue(out.printed.contains("* kirk"));
+    //         assertTrue(out.printed.contains("* mccoy"));
+    //         assertTrue(out.printed.contains("* scotty"));
+            
     // }
 
     // /**
@@ -170,11 +163,8 @@ public class AppTest {
     //  */
     // @Test
     // public void test_80_method_too_long() {
-    //     String [] folders = {"src", "tests"};
-    //     for (String folder: folders) {
-    //         File f = new File(folder);
-    //         LongMethodChecker.checkFiles(f.listFiles());
-    //     }
+    //     File f = new File(System.getProperty("user.dir"));
+    //     LongMethodChecker.checkFiles(f.listFiles());
     // }
 
     
@@ -266,5 +256,5 @@ public class AppTest {
     //     App.main(args);
     //     String expected = "Unrecognized crew member";
     //     assertTrue(out.printed.contains(expected), "Was " + out.printed);
-    // }   
+    // }
 }
