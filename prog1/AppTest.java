@@ -252,6 +252,7 @@ public class AppTest {
     // public void test_a100_App_main_error() {
     //     TrackingStream out = new TrackingStream();
     //     System.setErr(out);
+    //     System.setOut(out);
     //     String []args = {"--warp", "5.2", "--cloak", "--shields", "7", "--crew", "kirk,gothard,mccoy"};
     //     App.main(args);
     //     String expected = "Unrecognized crew member";

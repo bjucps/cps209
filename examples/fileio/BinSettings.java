@@ -55,8 +55,7 @@ public class BinSettings {
                 byte[] data = new byte[4];
                 reader.read(data);
                 secondsToSelfDestruct = java.nio.ByteBuffer.wrap(data).order(java.nio.ByteOrder.BIG_ENDIAN).getInt();
-                // secondsToSelfDestruct = ((data[0] && 0xff) << 24) + (data[1] << 16) + (data[2] << 8) + data[3];
-
+                
                 // Read string
                 // First, read 2-byte length:
                 byte[] lenData = new byte[2];
