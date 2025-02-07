@@ -2,9 +2,21 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
- <?import javafx.scene.image.*?>
+<?import javafx.scene.image.*?>
 
-<VBox fx:controller="app.MainWindow" xmlns:fx="http://javafx.com/fxml"  stylesheets="@MainWindow.css"
-    alignment="CENTER" spacing="20" prefHeight="400" prefWidth="250" >
+
+<VBox fx:controller="app.MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css"
+    spacing="10" prefHeight="200" prefWidth="300">
+
+    <ImageView fitWidth="200.0" fitHeight="100.0">
+        <Image url="@date.jpg" />
+    </ImageView>
+
+
+    <Label text="Difficulty" />
+    <Slider fx:id="sldDifficulty" />
+    <Button onAction="#onStartClicked" text="Start"  />
+
+
 
 </VBox>

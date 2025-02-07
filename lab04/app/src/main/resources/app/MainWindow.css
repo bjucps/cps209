@@ -1,10 +1,4 @@
 .root {
-    -fx-padding: 50; /* Add a small padding around the window */
-    -fx-spacing: 50;
-    -fx-font-family: 'Helvetica', Arial, sans-serif;
-}
-
-/* for Macs */
-.dialog-pane  {
-    -fx-font-family: 'Helvetica', Arial, sans-serif;
+    -fx-padding: 10; /* Add a small padding around the window */
+    padding: 10;     /* duplicated for compatibility */
 }
