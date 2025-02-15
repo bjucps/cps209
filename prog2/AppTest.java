@@ -1,7 +1,28 @@
-import java.io.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+package app;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
+
+/* To use ProcessBuilder, please add the following lines to the bottom of build.gradle:
+
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'app.App'
+    )
+  }
+}
+
+*/
 
 public class AppTest {
 
@@ -9,68 +30,69 @@ public class AppTest {
      * Runs the program like the user would.
      */
     @Test
-    public void test_80_main_normal()    {
+    public void test_80_main_normal() {
+        System.out.println("User dir: " + System.getProperty("user.dir"));
         try {
-            Process process = new ProcessBuilder("java", 
-                  "-jar", "build/libs/app.jar", "src/ice.png").start();
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line = br.readLine();
-            assertEquals("Metadata in src/ice.png:", line);
-            line = br.readLine();
-            assertTrue(line.startsWith("Software: "));
-            line = br.readLine();
-            assertEquals("Signature: 3248a69c033c15e46356a9ecb996c652", line);
-            line = br.readLine();
-            assertEquals("Delay: 42", line);
-            br.close();
-        } catch (Exception e) {
+            Process process = new ProcessBuilder("java",
+                    "-jar", "build/libs/app.jar", "ice.png").start();
+            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr)) {
+                String line = br.readLine();
+                assertEquals("Metadata in ice.png:", line);
+                line = br.readLine();
+                assertTrue(line.startsWith("Software: "));
+                line = br.readLine();
+                assertEquals("Signature: 3248a69c033c15e46356a9ecb996c652", line);
+                line = br.readLine();
+                assertEquals("Delay: 42", line);
+                br.close();
+            }
+        } catch (IOException e) {
             fail("Exception: " + e);
         }
     }
 
     @Test
-    public void test_80_main_sample_png()    {
+    public void test_80_main_sample_png() {
         try {
-            Process process = new ProcessBuilder("java", 
-                  "-jar", "build/libs/app.jar", "src/sample.png").start();
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line = br.readLine();
-            assertEquals("Metadata in src/sample.png:", line);
-            line = br.readLine();
-            assertTrue(line.startsWith("Software: "));
-            br.close();
-                        
-        } catch (Exception e) {
+            Process process = new ProcessBuilder("java",
+                    "-jar", "build/libs/app.jar", "sample.png").start();
+            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr)) {
+
+                String line = br.readLine();
+                assertEquals("Metadata in sample.png:", line);
+                line = br.readLine();
+                assertTrue(line.startsWith("Software: "));
+
+            }
+        } catch (IOException e) {
             fail("Exception: " + e);
         }
     }
 
     @Test
-    public void test_80_main_no_args()    {
+    public void test_80_main_no_args() {
+        String line;
         try {
-            Process process = new ProcessBuilder("java", 
-                  "-jar", "build/libs/app.jar").start();
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = br.readLine();
-            // Check standard out
-            assertTrue(line==null || 
-                       line.equals("Usage: Java App [filename] or arun [filename]"));
-            br.close();
+            Process process = new ProcessBuilder("java",
+                    "-jar", "build/libs/app.jar").start();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                line = br.readLine();
+                // Check standard out
+                assertTrue(line == null
+                        || line.equals("Usage: Java App [filename] or arun [filename]"));
+
+            }
 
             // Check standard error if standard out was null
             if (line == null) {
-                br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-                line = br.readLine();
-                assertEquals("Usage: Java App [filename] or arun [filename]", line);
-                br.close();
+                try (BufferedReader brErr = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                    line = brErr.readLine();
+                    assertEquals("Usage: Java App [filename] or arun [filename]", line);
+                }
             }
-                        
-        } catch (Exception e) {
-            fail("Exception: " + e);
+
+        } catch (IOException ex) {
+            fail("Exception: " + ex);
         }
     }
 
@@ -79,29 +101,25 @@ public class AppTest {
      */
     @Test
     public void test_80_method_too_long() {
-        String []folders = {"src", "tests"};
-        for (String folder: folders) {
-            File f = new File(folder);
-            LongMethodChecker.checkFiles(f.listFiles());
-        }
+        File f = new File(System.getProperty("user.dir"));
+        LongMethodChecker.checkFiles(f.listFiles());
     }
 
     @Test
     public void test_a105_modify_metadata() {
-
         try {
-            Process process = new ProcessBuilder("java", 
-                  "-jar", "build/libs/app.jar", "src/sample.png", "Software", "BJU-CpS-209").start();
+            Process process = new ProcessBuilder("java",
+                    "-jar", "build/libs/app.jar", "sample.png", "Software", "BJU-CpS-209").start();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line = br.readLine();
+                assertEquals("Metadata in sample.png:", line);
+                line = br.readLine();
+                assertEquals("Software: BJU-CpS-209", line);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = br.readLine();
-            assertEquals("Metadata in src/sample.png:", line);
-            line = br.readLine();
-            assertEquals("Software: BJU-CpS-209", line);
-            br.close();
-                        
-        } catch (Exception e) {
-            fail("Exception: " + e);
+            }
+
+        } catch (IOException ex) {
+            fail("Exception: " + ex);
         }
     }
 
@@ -109,24 +127,22 @@ public class AppTest {
     public void test_a105_modify_metadata_fail() {
 
         try {
-            Process process = new ProcessBuilder("java", 
-                  "-jar", "build/libs/app.jar", "src/sample.png", "Denomination", "Presbyterian").start();
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = br.readLine();
-            assertTrue(line==null || line.equals("No Denomination found"));
-            br.close();
+            String line = null;
+            Process process = new ProcessBuilder("java",
+                    "-jar", "build/libs/app.jar", "sample.png", "Denomination", "Presbyterian").start();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                line = br.readLine();
+                assertTrue(line == null || line.equals("No Denomination found"));
+            }
 
             // Check standard error if standard out was null
             if (line == null) {
-                is = process.getErrorStream();
-                isr = new InputStreamReader(is);
-                br = new BufferedReader(isr);
-                line = br.readLine();
-                assertEquals("No Denomination found", line);
-                br.close();
+                try (BufferedReader brErr = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                    line = brErr.readLine();
+                    assertEquals("No Denomination found", line);
+                }
             }
-                        
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail("Exception: " + e);
         }
     }
