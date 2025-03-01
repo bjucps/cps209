@@ -1,3 +1,4 @@
+package app;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -23,21 +24,14 @@ public class MainWindow {
     @FXML
     Label lblCoord;
 
-    int numButtons;
-
     int balloonSize = 50;
 
-    boolean newBalloonCreated = false;
-
-    double deltaX;
-    double deltaY;
-
-
-    final Image IMG_BALLOON = new Image("/balloon.png");
+    Image IMG_BALLOON = new Image("balloon.png");
+   
 
     @FXML
     void initialize() {
-        slider.setValue(balloonSize);
+         slider.setValue(balloonSize);
         txtSize.textProperty().addListener((o, oldVal, newVal) -> onTextChanged(newVal));
         slider.valueProperty().addListener((o, oldVal, newVal) -> onSliderChanged(newVal.intValue()));
     }
