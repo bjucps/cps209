@@ -3,8 +3,7 @@ package app;
  * Example of the view registering a handler.
  * To execute:
  *     java app/src/main/java/app/CommandLineView.java 
- * @author S. Gothard * date:
- * 3/1/2023
+ * @author S. Gothard
  */
 class CommandLineView {
 
