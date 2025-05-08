@@ -5,9 +5,8 @@ public class ThreadsRace {
 
     public static void main(String[] args) throws Exception {
         var t1 = new Thread(() -> Sum(1, 100000));
-        t1.start();
-
         var t2 = new Thread(() -> Sum(100001, 200000));
+        t1.start();
         t2.start();
         
         t1.join(); // Wait for t1 to finish

@@ -19,21 +19,17 @@ public class Model {
 
 
     public void addObserver(Observer obs) {
-        if (!instance.observers.contains(obs)) {
-            instance.observers.add(obs);
+        if (!observers.contains(obs)) {
+            observers.add(obs);
         }
     }
 
     public void generateMove() {
         moveValue = (int) (Math.random()*20);
-        for (var observer : observers) {
-            observer.hasMoved(moveValue);
-        }
+        observers.stream().forEach(o -> o.hasMoved(moveValue));
         
         if (moveValue == 10) {
-            for (var observer : observers) {
-                observer.gameOver();
-            }
+            observers.stream().forEach(o -> o.gameOver());
         }
     }
 }

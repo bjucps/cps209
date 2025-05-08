@@ -1,7 +1,8 @@
+package app;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

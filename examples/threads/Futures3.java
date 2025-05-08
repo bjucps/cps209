@@ -1,4 +1,7 @@
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -7,31 +10,34 @@ public class Futures3 {
     public static void main(String[] args) throws Exception {
 
         CompletableFuture<Long> future = countLines("Futures2.java", 
-          linesSoFar -> System.out.println("Read " + linesSoFar + " lines..."));
-        
-        future.whenComplete( (result, e) -> {
-            if (e != null) 
-                System.out.println("Problem occurred: " + e);
-            else
+                linesSoFar -> System.out.println("Status update: " + linesSoFar + 
+                                                 " lines read so far."));
+
+        future.whenComplete((result, e) -> {
+            if (e != null) {
+                System.out.println("Problem occurred: " + e); 
+            }else {
                 System.out.println("Result is: " + result);
+            }
         });
         System.out.println("Press enter to exit...");
         System.in.read();
     }
 
     static CompletableFuture<Long> countLines(String filename, Consumer<Long> onProgress) {
-        return CompletableFuture.supplyAsync( () -> {
+        return CompletableFuture.supplyAsync(() -> {
             long lines = 0;
             try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
                 while (rd.readLine() != null) {
                     ++lines;
-                    if (lines % 5 == 0)
+                    if (lines % 8 == 0) {
                         onProgress.accept(lines);
+                    }
                 }
-                    
+
             } catch (IOException ex) {
                 // must wrap checked exception in an unchecked exception
-                throw new RuntimeException(ex); 
+                throw new RuntimeException(ex);
             }
 
             return lines;
