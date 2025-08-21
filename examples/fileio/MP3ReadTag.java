@@ -63,7 +63,8 @@ public class MP3ReadTag {
 
                 if (frameId.charAt(0) == 'T') {
                     // a text frame
-                    int encoding = br.read();
+                    // int encoding = br.read();
+                    br.read();
 
                     // Ignore encoding and hope for the best(!)
 

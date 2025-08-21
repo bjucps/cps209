@@ -25,7 +25,7 @@ public class TextSettings {
 
     }
 
-    static void ReadSettings()  {
+    static void ReadSettings() throws FileNotFoundException, IOException  {
         int secondsToSelfDestruct;
         String color;
         boolean totalDestruction;
