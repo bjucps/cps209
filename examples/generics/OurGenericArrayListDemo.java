@@ -2,6 +2,7 @@ class OurGenericArrayList<T> {
     T[] items;
     int itemCount;
 
+    @SuppressWarnings("unchecked")
     public OurGenericArrayList() {        
         items = (T[])new Object[10];
         itemCount = 0;

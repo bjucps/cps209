@@ -1,6 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 class Program {
 
@@ -23,11 +21,11 @@ class Program {
         long distinctCount = items.stream().distinct().count();
         String themax = items.stream().max((o1, o2) -> o1.length() - o2.length()).get();
 
-        int[] nums = { 5, 10, -3, 36, 19 };
+        // int[] nums = { 5, 10, -3, 36, 19 };
         //int largestNum = Stream.of(nums).max((o1, o2) -> o1 - o2).get();
 
         items.stream().filter( s -> s.length() > 3).forEach( item -> System.out.println(item));
-        var itemsLongerThan3 = items.stream().filter( s -> s.length() > 3).collect(Collectors.toList());
+        // var itemsLongerThan3 = items.stream().filter( s -> s.length() > 3).collect(Collectors.toList());
 
 
         System.out.println("The longest item is: " + themax);

@@ -11,19 +11,15 @@ public class EchoClient {
     public static void main(String[] args) throws IOException {
 
         var scanner = new Scanner(System.in);
-
         // Connect to server
         var addr = InetAddress.getByName("localhost");
         System.out.println("EchoServer connecting to server...");
-        var socket = new Socket(addr, PORT);
 
-        // Prepare to communicate with server
-        var reader = new Scanner(socket.getInputStream());
-        var writer = new PrintWriter(socket.getOutputStream(), true);
-
-        String line = reader.nextLine();
-        System.out.println(line);
-        try {
+        try (var socket = new Socket(addr, PORT);
+                var reader = new Scanner(socket.getInputStream());
+                var writer = new PrintWriter(socket.getOutputStream(), true);) {
+            String line = reader.nextLine();
+            System.out.println(line);
             while (!line.equals("quit")) {
                 System.out.print("Enter a line to send to server (quit to end):");
                 line = scanner.nextLine();
@@ -36,6 +32,7 @@ public class EchoClient {
         } catch (Exception e) {
             System.out.println("Exception occurred: " + e.getMessage());
         }
-
+        
+        scanner.close();
     }
 }

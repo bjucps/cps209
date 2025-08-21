@@ -23,12 +23,16 @@ class StreamingCSVReader implements AutoCloseable {
     }
 
     public String[] nextLine() {
-        String line = rd.readLine();
-        if (line != null) {
-            return line.split(delimiter);
-        } else {
-            return null;
-        }
+        String line;
+        try {
+            line = rd.readLine();
+            if (line != null) {
+                return line.split(delimiter);
+            }
+        } catch (IOException e) {
+        }         
+        return null;
+        
     }
 
     @Override

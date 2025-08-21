@@ -9,14 +9,21 @@ abstract class DateFormatter {
 class BritishDateFormatter extends DateFormatter {
     public String format(Date date)
     {
-        return String.format("%d-%d-%d", date.Day, date.Month, date.Year);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return String.format("%d-%d-%d", c.get(Calendar.DAY_OF_MONTH),
+        c.get(Calendar.MONTH), c.get(Calendar.YEAR));
     }
 }
 
 class USDateFormatter extends DateFormatter {
     public String format(Date date)
     {
-        return String.format("%d-%d-%d", date.Month, date.Day, date.Year);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return String.format("%d-%d-%d", c.get(Calendar.MONTH), 
+                  c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.YEAR));
+
     }
 }
 
@@ -46,7 +53,7 @@ class DateFormatterFactory {
 class FormatDates {
     public static void main(String[] args)
     {
-        String locale = args[0];
+        // String locale = args[0];
 
         DateFormatter formatter = new USDateFormatter();
 
