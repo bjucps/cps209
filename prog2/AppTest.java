@@ -94,6 +94,8 @@ jar {
   }
 }
 
+  Be sure to do a "gradle build test" in order to generate the jar.
+
 */
     @Test
     public void test_80_main_normal_processBuilder() {
