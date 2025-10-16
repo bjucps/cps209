@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -8,129 +7,120 @@ class StreamExamples {
 
     public static void main(String[] args) {
 
-        Scanner pause = new Scanner(System.in);
-        var list = StreamExamples.demoGenerate();
-        System.out.println("Starting list:");
-        list.stream().forEach(e->System.out.print(e +"\t"));
-        System.out.println();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoAllMatch();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoOf();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoAnyMatch();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoForeach();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoDistinctCount();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoFilter();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoMaxAndMin();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoMap();
-        System.out.print("Press enter to continue...");
-        pause.nextLine();
-        demoSorted();
-        pause.close();
+        StreamExamples examples = new StreamExamples();
+        examples.demoDistinctCount();
+        examples.demoAllMatch();
+        examples.demoAnyMatch();
+        examples.demoForeach();
+        examples.demoFilter();
+        examples.demoMaxAndMin();
+        examples.demoMap();
+        examples.demoSorted();
     }
 
-    public static void demoAllMatch() {
-        System.out.println("\n\tAll Match");
-        var stream = demoGenerate().stream();
-        int length = 5;
-        System.out.print("All Strings > " + length + "? ");
-        System.out.println(stream.allMatch(s -> s.length() > length));
+    private Scanner scanner;
+    private List<String> list;
+
+    public StreamExamples() {
+        list = demoGenerate();
+        scanner = new Scanner(System.in);
+        pause();
     }
 
-    public static void demoDistinctCount() {
-        System.out.print("\n\tCount: ");
-        var list = demoGenerate();
-        System.out.println(list.stream().count());
+    private void pause() {
+        scanner.nextLine();
+    }
+
+    public void demoAllMatch() {
+        final int SIZE = 8;
+        System.out.print("allMatch: all less than " + SIZE + "? ");
+        var stream = list.stream();
+        System.out.print(stream.allMatch(s -> s.length() < SIZE ) + ". ");
+        System.out.println(list.stream().filter(s->s.length() >= SIZE).toList());
+        pause();
+    }
+
+    public void demoDistinctCount() {
+        System.out.print("Count: ");
+        System.out.print(list.stream().count());
 
         System.out.print("\tDistinct Count: ");
         System.out.println(list.stream().distinct().count());
+        pause();
     }
 
-    public static void demoFilter() {
-        char letter = 'r';
-        System.out.print("\n\tFilter on contains '" + letter + "': ");
-        var stream = demoGenerate().stream();
-        var result = stream.filter(s -> s.toLowerCase().contains(String.valueOf(letter)));
+    public void demoFilter() {
+        String letter = "l";
+        System.out.print("Filter: contains '" + letter + "': ");
+        var result = list.stream().filter(s -> s.toLowerCase().contains(letter));
         System.out.println("result: " + result.toList());
+        pause();
     }
 
-    public static void demoOf() {
-        System.out.print("\n\tof (list from author names): ");
-        var result = Stream.of("Matthew", "Mark", "Luke", "John", "Paul", "Peter", "James");
-        System.out.println("result: " + result.toList());
+    public void demoMap() {
+        System.out.print("Map (and filter and peek): ");
+        var result = list.stream().filter(s -> s.length() > 5)
+                .peek(e -> System.out.print("\n\tFiltered (> 5): " + e))
+                .map(s -> s.substring(1, 5).toLowerCase())
+                .peek(e -> System.out.print(". Mapped value: " + e))
+                .map(s -> new StringBuilder(s).reverse().toString())
+                .peek(e -> System.out.print(". Reversed: " + e))
+                .collect(Collectors.groupingBy(String::toString));
+        System.out.println("\nCollected result: " + result);
+        pause();
     }
 
-    public static void demoMap() {
-        System.out.print("\n\tMap (and filter and peek): ");
-        var result = demoGenerate().stream().filter(s -> s.length() > 0 && Character.isLowerCase(s.charAt(0)))
-                .peek(e -> System.out.println("Filtered value (starts with lower case): " + e))
-                .map(String::toUpperCase) // same as map(s -> s.toUpperCase())
-                .peek(e -> System.out.println("Mapped value: " + e))
-                .collect(Collectors.toList());
-        System.out.println("Collected result: " + result);
+    public void demoSorted() {
+        System.out.print("Sorted, distinct, lowercase:\n");
+        list.stream().map(String::toLowerCase).distinct().sorted()
+                .forEach(s -> System.out.print(s + " ("+s.charAt(0)+") "));
+        pause();
     }
 
-    public static void demoSorted() {
-        System.out.print("\n\tSorted, distinct, lowercase:\n");
-        demoGenerate().stream().distinct() // .peek(s->System.out.println("*" + s))
-                .sorted() // .peek(s->System.out.println("[" + s + "]"))
-                .map(String::toLowerCase).forEach(s -> System.out.println("item: " + s));
+    public void demoAnyMatch() {
+        char letter = 'S';
+        System.out.print("anyMatch: Do any start with " + letter+"? ");
+        System.out.print(list.stream().anyMatch(s -> s.charAt(0) == letter)+". ");
+        System.out.println(list.stream().filter(s -> s.charAt(0) == letter).toList());
+        
+        pause();
     }
 
-    public static void demoAnyMatch() {
-
-        System.out.print("\n\tAny match: Is anything > 8? ");
-        System.out.println(demoGenerate().stream().anyMatch(s -> s.length() > 8));
+    public void demoForeach() {
+        System.out.println("Foreach distinct:");
+        var stream = list.stream();
+        stream.distinct().forEach(s -> System.out.println("\t" + s  + " <=> " + new StringBuilder(s).reverse()));
+        pause();
     }
 
-    public static void demoForeach() {
-        System.out.println("\n\tForeach");
-        var stream = demoGenerate().stream();
-        stream.forEach(s -> {
-            var sb = new StringBuilder(s);
-            sb.reverse();
-            System.out.println("Reversed: " + sb);
-        });
-    }
-
-    public static void demoMaxAndMin() {
-        System.out.print("\n\tMax (alphabetically): ");
-        var list = demoGenerate();
-        System.out.println(list.stream().max((s1, s2) -> s1.compareTo(s2)));
-
-        System.out.print("\n\tMin (alphabetically) with get(): ");
-        System.out.println(list.stream().min((s1, s2) -> s1.compareTo(s2)).get());
-
-        System.out.print("\n\tMax (length) with get(): ");
+    public void demoMaxAndMin() {
+        System.out.print("Max (alphabetically): ");
+        System.out.println(list.stream().max((s1, s2) -> s1.compareTo(s2)).get());
+        System.out.print("Max (length): ");
         System.out.println(list.stream().max((s1, s2) -> s1.length() - s2.length()).get());
+        System.out.print("Max (alphabetically last letter): ");
+        System.out.println(list.stream().max((s1, s2) -> s2.charAt(s2.length()-1) - s1.charAt(s1.length()-1)).get());
 
-        System.out.print("\n\tMin (length): ");
-        System.out.println(list.stream().min((s1, s2) -> s1.length() - s2.length()));
-
+        System.out.print("Min (alphabetically): ");
+        System.out.println(list.stream().min((s1, s2) -> s1.compareTo(s2)).get());
+        System.out.print("Min (length): ");
+        System.out.println(list.stream().min((s1, s2) -> s1.length() - s2.length()).get());
+        System.out.print("Min (alphabetically last letter): ");
+        System.out.println(list.stream().min((s1, s2) -> s2.charAt(s2.length()-1) - s1.charAt(s1.length()-1)).get());
+        pause();
     }
 
     public static List<String> demoGenerate() {
-        var names = Stream.of("David", "Joey", "Jon", "David", "Joey", "Jon", 
-                        "Grace", "Martin", "Robert", "julia heying", "martin", "Pierre",
-                        "micah", "Matthew", "caleb", "Josiah", "jun", "").toList();
-        return Stream.generate(() -> names.get(
-                (int) (Math.random() * names.size()) // picking a number [0, size-1]
-        )).limit(20).toList();
-
+        Stream<String> s = Stream.of("David", "Moses", "Jacob", "Saul", "Aaron", 
+                           "Abraham", "Solomon", "Joseph", "Paul", "Joshua", "Peter", 
+                           "Jeremiah", "Samuel", "Isaac", "Joab", "Zechariah", "Mary", 
+                           "Joanna", "Simeon", "Zerubbabel");
+        var names = s.toList();
+        System.out.println("Choices: " + names);
+        var list = Stream.generate(() -> names.get(
+            (int) (Math.random() * names.size()))).limit(10).toList();
+        System.out.println("Generated: " + list);
+        return list;
     }
 
 }
