@@ -12,8 +12,10 @@ public class MainWindow {
 
     @FXML
     void onGreetClicked(ActionEvent event) {
-        String selected = ((ToggleButton)group.getSelectedToggle()).getText();
-        
+        String selected = "Nothing";
+        if (group.getSelectedToggle() != null) {
+            selected = ((ToggleButton) group.getSelectedToggle()).getText();
+        }
         displayAlert(selected + ", World!");
     }
 
