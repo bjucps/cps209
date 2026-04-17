@@ -21,25 +21,24 @@ public class EchoServerThreaded {
     }
 
     private static void handleClient(Socket client) {
-        try {
             try (var reader = new Scanner(client.getInputStream())) {
                 var writer = new PrintWriter(client.getOutputStream(), true);
 
                 // Now, communicate with client
                 writer.println("Welcome to the Echo Server.");
-      while (reader.hasNextLine()) {
+                while (reader.hasNextLine()) {
                     String line = reader.nextLine();
                     System.out.println("Received: " + line);
                     writer.println(line);
                 }
-            }
         } catch (IOException e) {
             System.out.println("Exception occurred: " + e.getMessage());
         } finally {
             try {
                 System.out.println("Client disconnected.");
                 client.close();
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
         }
     }
 }
